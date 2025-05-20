@@ -1,12 +1,27 @@
+/**
+ * Arcjet Security Configuration
+ * Sets up and exports a configured Arcjet client for security features including:
+ * - Shield protection
+ * - Bot detection
+ * - Rate limiting
+ */
+
 import arcjet, { shield, detectBot, tokenBucket } from "@arcjet/node";
 import { ARCJET_KEY } from "./env.js";
 
+/**
+ * Configured Arcjet client with security rules
+ * @property {string} key - Arcjet API key from environment variables
+ * @property {string[]} characteristics - Request characteristics to track
+ * @property {Object[]} rules - Array of security rules to apply
+ */
 const aj = arcjet({
   // Get your site key from https://app.arcjet.com and set it as an environment
   // variable rather than hard coding.
   key: ARCJET_KEY,
   characteristics: ["ip.src"], // Track requests by IP
   rules: [
+    // Shield rule for basic protection
     shield({ mode: "LIVE" }),
     // Create a bot detection rule
     detectBot({

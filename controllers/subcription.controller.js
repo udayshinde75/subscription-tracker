@@ -1,8 +1,20 @@
+/**
+ * Subscription Controller
+ * Handles all subscription-related operations including CRUD operations and subscription management
+ */
+
 import { SERVER_URL } from '../config/env.js';
 import { workflowClient } from '../config/upstash.js';
 import Subscription from '../models/subscription.model.js';
 import mongoose from "mongoose";
 
+/**
+ * Create a new subscription
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ * @returns {Object} Created subscription and workflow ID
+ */
 export const createSubscription = async (req, res, next) => {
     try {
         const subscription = await Subscription.create({
@@ -27,7 +39,13 @@ export const createSubscription = async (req, res, next) => {
     }
 }
 
-
+/**
+ * Get all subscriptions for a specific user
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ * @returns {Object} List of user's subscriptions
+ */
 export const getUserSubscriptions = async (req, res, next) => {
     try {
         if (req.user.id !== req.params.id) {
@@ -44,6 +62,13 @@ export const getUserSubscriptions = async (req, res, next) => {
     }
 }
 
+/**
+ * Get all subscriptions (Admin only)
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ * @returns {Object} List of all subscriptions
+ */
 export const getAllSubcriptions = async (req, res, next) => {
     try {
         if (req.user.role === "Administrator") {
@@ -60,6 +85,13 @@ export const getAllSubcriptions = async (req, res, next) => {
     }
 }
 
+/**
+ * Get details of a specific subscription
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ * @returns {Object} Subscription details
+ */
 export const getSubscriptionDetails = async (req, res, next) => {
     try {
         // Check if the user is an Administrator OR the owner of the subscription
@@ -89,6 +121,14 @@ export const getSubscriptionDetails = async (req, res, next) => {
     }
 };
 
+/**
+ * Update a subscription
+ * Uses MongoDB transactions to ensure data consistency
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ * @returns {Object} Updated subscription
+ */
 export const updateSubscription = async (req, res, next) => {
     const session = await mongoose.startSession(); // Start MongoDB session
     session.startTransaction(); // Begin transaction
@@ -131,7 +171,14 @@ export const updateSubscription = async (req, res, next) => {
     }
 };
 
-
+/**
+ * Delete a subscription
+ * Uses MongoDB transactions to ensure data consistency
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ * @returns {Object} Success message
+ */
 export const deleteSubscription = async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -163,6 +210,14 @@ export const deleteSubscription = async (req, res, next) => {
     }
 };
 
+/**
+ * Cancel a subscription
+ * Uses MongoDB transactions to ensure data consistency
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ * @returns {Object} Cancelled subscription details
+ */
 export const cancelSubscription = async (req, res, next) => {
     const session = await mongoose.startSession();
     session.startTransaction();

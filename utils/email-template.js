@@ -1,3 +1,23 @@
+/**
+ * Email Template Utilities
+ * Provides functions and templates for generating subscription reminder emails
+ * Includes HTML email templates and subject line generators
+ */
+
+/**
+ * Generates HTML email template for subscription reminders
+ * @param {Object} params - Template parameters
+ * @param {string} params.userName - User's name
+ * @param {string} params.subscriptionName - Name of the subscription
+ * @param {string} params.renewalDate - Date of subscription renewal
+ * @param {string} params.planName - Name of the subscription plan
+ * @param {string} params.price - Subscription price
+ * @param {string} params.paymentMethod - Payment method used
+ * @param {string} params.accountSettingsLink - Link to account settings
+ * @param {string} params.supportLink - Link to support
+ * @param {number} params.daysLeft - Days remaining until renewal
+ * @returns {string} HTML email template
+ */
 export const generateEmailTemplate = ({
   userName,
   subscriptionName,
@@ -66,6 +86,13 @@ export const generateEmailTemplate = ({
   </div>
   `;
 
+/**
+ * Collection of email templates for different reminder intervals
+ * Each template includes:
+ * - Label for identification
+ * - Subject line generator
+ * - Body template generator
+ */
 export const emailTemplates = [
   {
     label: "7 days before reminder",
